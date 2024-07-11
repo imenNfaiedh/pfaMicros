@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: application2
+  config:
+    import: configserver:http://localhost:8888
+
+

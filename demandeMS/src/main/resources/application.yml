@@ -1,0 +1,5 @@
+spring:
+  config:
+    import: configserver:http://localhost:8888  # Importer les configurations depuis le serveur de configuration
+  application:
+    name: demandeMS
