@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @Getter
 @NoArgsConstructor
-
+@Table(name = "003T_CONVENTION")
 public class Convention {
 
     @Id
@@ -21,9 +21,11 @@ public class Convention {
     private Date dateSignature;
 
     @ManyToOne
+    @JoinColumn(name = "PARTENAIRE_IDFK")
     private Partenaire partenaire;
 
     @ManyToOne
+    @JoinColumn
     private Modalite modalite;
 
 

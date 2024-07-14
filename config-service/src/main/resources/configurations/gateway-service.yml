@@ -18,7 +18,11 @@ spring:
         - id: demandeMS
           uri: http://localhost:8090
           predicates:
-            - Path=/**
+              - Path=/credits/**
+              - Path=/demandes/**
+              - Path=/projects/**
+              - Method=GET,POST,PUT,DELETE,OPTIONS
+
         - id: application1
           uri: http://localhost:8086
           predicates:
@@ -32,7 +36,10 @@ spring:
         - id: parametrageMS
           uri: http://localhost:8087
           predicates:
-            - Path=/para/get**
+            - Path=/partners/** , /modalite/** , /conventions/**
+
+
+
 
 
 

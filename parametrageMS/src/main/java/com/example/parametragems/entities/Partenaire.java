@@ -23,7 +23,7 @@ public class Partenaire {
     private Long telephone;
     private String mail;
 
-    @OneToMany(mappedBy = "partenaire")
+    @OneToMany(mappedBy = "partenaire" ,cascade = CascadeType.ALL)
     private List<Convention> conventions;
 
 
