@@ -16,7 +16,7 @@ public class CreditController {
     @Autowired
     private ICreditService creditService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public  CreditDto createCredit (@RequestBody Credit credit)
     {
         return creditService.createCredit(credit);
@@ -28,7 +28,7 @@ public class CreditController {
         return ResponseEntity.ok(creditService.getByIdCredit(id));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<CreditDto>> getAllCredit()
     {
       return ResponseEntity.ok(creditService.getAllCredit());

@@ -36,7 +36,7 @@ spring:
         - id: parametrageMS
           uri: http://localhost:8087
           predicates:
-            - Path=/partners/** , /modalite/** , /conventions/**
+            - Path=/partners/** , /modalite/** , /conventions/** , /fonds/**
 
 
 
