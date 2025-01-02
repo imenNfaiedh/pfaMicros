@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 
 public interface IPartenaireRepository extends JpaRepository<Partenaire,Integer> {
+  //  boolean existsByIdPartenaireAndIdModalite(int idPartenaire, int idModalite);
+
 }

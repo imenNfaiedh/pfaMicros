@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_00eih5a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+  <bpmn:process id="demande" name="demande" isExecutable="true" camunda:historyTimeToLive="30">
+    <bpmn:extensionElements />
+    <bpmn:startEvent id="StartEvent_1" name="debut_etude">
+      <bpmn:outgoing>Flow_0xkgz3f</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0xkgz3f" sourceRef="StartEvent_1" targetRef="saisiepreleminaire" />
+    <bpmn:userTask id="saisiepreleminaire" camunda:assignee="${assignee}" camunda:candidateGroups="${candidateGroups}" name="Saisie preliminaire de la demande">
+       <bpmn:extensionElements>
+    <camunda:field name="demandeId" stringValue="${DemandeValue}" />
+    <camunda:field name="UserTosend" stringValue="${UserTosendValue}" />
+    <camunda:field name="Datesaisie" stringValue="${Datesaisie}" />
+    </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0xkgz3f</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bw55mk</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1bw55mk" sourceRef="saisiepreleminaire" targetRef="verifierdemande" />
+    <bpmn:sequenceFlow id="Flow_0isdiaq" sourceRef="verifierdemande" targetRef="validedemande" />
+    <bpmn:exclusiveGateway id="Gateway_1gld77i" name="decision">
+      <bpmn:incoming>Flow_0mvddyp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0n0fr1k</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1fmfssv</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0mvddyp" sourceRef="validedemande" targetRef="Gateway_1gld77i" />
+    <bpmn:intermediateThrowEvent id="Event_07dsl4x" name="Demande_acceptée">
+      <bpmn:incoming>Flow_0n0fr1k</bpmn:incoming>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0n0fr1k" name="validée" sourceRef="Gateway_1gld77i" targetRef="Event_07dsl4x">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{decision == 'validee' }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1fmfssv" name="nonvalidée" sourceRef="Gateway_1gld77i" targetRef="verifierdemande">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{decision == 'nonvalidee' }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="verifierdemande" camunda:assignee="${assignee}" camunda:candidateGroups="${candidateGroups}" name="Verifier la demande">
+         <bpmn:extensionElements>
+         <camunda:field name="demandeId" stringValue="${DemandeValue}" />
+         <camunda:field name="usertoSend" stringValue="${usertoSend}" />
+         <camunda:field name="Datemodif" stringValue="${Datemodif}" />
+         </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bw55mk</bpmn:incoming>
+      <bpmn:incoming>Flow_1fmfssv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0isdiaq</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="validedemande" camunda:assignee="${assignee}" camunda:candidateGroups="${candidateGroups}" name="Valider la demande" camunda:formKey="http://localhost:8060/camunda/resources/test.html">
+       <bpmn:extensionElements>
+       <camunda:field name="demandeId" stringValue="${DemandeValue}" />
+       <camunda:field name="motifRejet" stringValue="${motifRejetValue}" />
+       <camunda:field name="userRetour" stringValue="${usertoSend}" />
+        <camunda:field name="Datevalid" stringValue="${Datevalid}" />
+       </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0isdiaq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mvddyp</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1gc8mf0">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="168" y="202" width="62" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18tkrc1_di" bpmnElement="saisiepreleminaire">
+        <dc:Bounds x="270" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1gld77i_di" bpmnElement="Gateway_1gld77i" isMarkerVisible="true">
+        <dc:Bounds x="755" y="152" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="760" y="122" width="41" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_093mnmy_di" bpmnElement="verifierdemande">
+        <dc:Bounds x="430" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01386wp_di" bpmnElement="validedemande">
+        <dc:Bounds x="590" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07dsl4x_di" bpmnElement="Event_07dsl4x">
+        <dc:Bounds x="912" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="890" y="202" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0xkgz3f_di" bpmnElement="Flow_0xkgz3f">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="270" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bw55mk_di" bpmnElement="Flow_1bw55mk">
+        <di:waypoint x="370" y="177" />
+        <di:waypoint x="430" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0isdiaq_di" bpmnElement="Flow_0isdiaq">
+        <di:waypoint x="530" y="177" />
+        <di:waypoint x="590" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mvddyp_di" bpmnElement="Flow_0mvddyp">
+        <di:waypoint x="690" y="177" />
+        <di:waypoint x="755" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0n0fr1k_di" bpmnElement="Flow_0n0fr1k">
+        <di:waypoint x="805" y="177" />
+        <di:waypoint x="912" y="177" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="844" y="159" width="35" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fmfssv_di" bpmnElement="Flow_1fmfssv">
+        <di:waypoint x="780" y="202" />
+        <di:waypoint x="780" y="350" />
+        <di:waypoint x="480" y="350" />
+        <di:waypoint x="480" y="217" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="604" y="332" width="54" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

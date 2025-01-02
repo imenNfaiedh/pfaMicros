@@ -5,7 +5,8 @@ spring:
     import: configserver:http://localhost:8888  # Importer les configurations depuis le serveur de configuration
 
 
-
+  main:
+    web-application-type: reactive
 
 
 

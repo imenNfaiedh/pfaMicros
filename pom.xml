@@ -59,6 +59,11 @@
 
 		<module>parametrageMS</module>
 		<module>demandeMS</module>
+		<module>users-service</module>
+		<module>camunda-service</module>
+
+
+
 
 
 

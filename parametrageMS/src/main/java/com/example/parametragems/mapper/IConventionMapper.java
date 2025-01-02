@@ -1,6 +1,7 @@
 package com.example.parametragems.mapper;
 
 import com.example.parametragems.dto.ConventionDto;
+import com.example.parametragems.dto.ConventionRequest;
 import com.example.parametragems.entities.Convention;
 import org.mapstruct.Mapper;
 

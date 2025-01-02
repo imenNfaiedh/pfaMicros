@@ -1,8 +1,11 @@
 package com.example.demandems.exception;
 
-public class PartnerNotFoundException extends RuntimeException{
-    public PartnerNotFoundException(String message)
+import lombok.Data;
+
+public class NotFoundException extends RuntimeException{
+    public NotFoundException(String message)
     {
+
         super(message);
     }
 }

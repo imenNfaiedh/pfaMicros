@@ -2,11 +2,15 @@ package com.example.parametragems.services.imp;
 
 import com.example.parametragems.dto.ModaliteDto;
 import com.example.parametragems.dto.PartenaireDto;
+import com.example.parametragems.entities.Fond;
 import com.example.parametragems.entities.Modalite;
 import com.example.parametragems.entities.Partenaire;
 import com.example.parametragems.mapper.IModaliteMapper;
+import com.example.parametragems.repository.IFondRepository;
 import com.example.parametragems.repository.IModaliteRepository;
+import com.example.parametragems.services.IFondService;
 import com.example.parametragems.services.IModaliteService;
+import jakarta.ws.rs.NotFoundException;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +29,8 @@ public class ModaliteServiceImp implements IModaliteService {
 
     @Autowired
     private IModaliteRepository modaliteRepository;
+    @Autowired
+    private IFondRepository fondRepository;
     @Autowired
     private IModaliteMapper modaliteMapper;
 
@@ -58,15 +64,41 @@ public class ModaliteServiceImp implements IModaliteService {
     }
 
     @Override
-    public ModaliteDto updateModalite(Modalite modalite, int id) {
-        if (!modaliteRepository.existsById(modalite.getIdModalite()))
-        {
-            throw new RuntimeException("Modalite not found");
+    public ModaliteDto updateModalite(ModaliteDto modaliteDto, int id) {
+       // Modalite modalite = modaliteMapper.toEntity(modaliteDto);
+        Fond fond = fondRepository.findById(modaliteDto.getFondId()).orElseThrow(
+                ()-> new NotFoundException("fond not found with id :" + modaliteDto.getFondId())
+        );
+       Optional< Modalite> modaliteOptional = modaliteRepository.findById(id);
+       if(!modaliteOptional.isPresent()){
+           throw  new NotFoundException("not found");
+       }
+        Modalite modalite1 = modaliteOptional.get();
+        modalite1.setNomCompletModalite(modaliteDto.getNomCompletModalite());
+        modalite1.setMontantMax(modaliteDto.getMontantMax());
+        modalite1.setMontantMin(modaliteDto.getMontantMin());
+        modalite1.setTypeModalite(modaliteDto.getTypeModalite());
+        //modalite1.setNomCompletModalite(modaliteDto.getNomCompletModalite());
 
-        }
-        modalite=modaliteRepository.save(modalite);
-        return modaliteMapper.toDto(modalite);
+        modalite1.setFond(fond);
 
+
+
+
+        //   modalite1.set
+        return modaliteMapper.toDto( modaliteRepository.save(modalite1));
+
+    }
+
+    public Modalite saveOrUpdateModalite(ModaliteDto  modaliteDto) {
+        Modalite modalite = modaliteMapper.toEntity(modaliteDto);
+        Fond fond = fondRepository.findById(modaliteDto.getFondId()).orElseThrow(
+                ()-> new NotFoundException("fond not found with id :" + modaliteDto.getFondId())
+        );
+        //affect
+        modalite.setFond(fond);
+        // Création d'une nouvelle entité
+        return modaliteRepository.save(modalite);
     }
 
 
@@ -76,4 +108,10 @@ public class ModaliteServiceImp implements IModaliteService {
         modaliteRepository.deleteById(id);
 
     }
+
+
+
+
+
+
 }

@@ -24,7 +24,7 @@ public class Convention {
     @JoinColumn(name = "PARTENAIRE_IDFK")
     private Partenaire partenaire;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Modalite modalite;
 

@@ -10,6 +10,6 @@ public interface IFondService {
     List<FondDto> getAllFond();
     FondDto getByIdFond(int id);
     FondDto createFond (Fond fond );
-    FondDto updateFond  (Fond fond , int id);
+    FondDto updateFond  (FondDto fondDto , int id);
     void deleteFond (int id);
 }

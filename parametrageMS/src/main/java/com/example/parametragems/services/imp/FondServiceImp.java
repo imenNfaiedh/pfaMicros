@@ -2,9 +2,11 @@ package com.example.parametragems.services.imp;
 
 import com.example.parametragems.dto.FondDto;
 import com.example.parametragems.entities.Fond;
+import com.example.parametragems.entities.Modalite;
 import com.example.parametragems.mapper.IFondMapper;
 import com.example.parametragems.repository.IFondRepository;
 import com.example.parametragems.services.IFondService;
+import jakarta.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,14 +48,23 @@ public class FondServiceImp implements IFondService {
     }
 
     @Override
-    public FondDto updateFond(Fond fond, int id) {
-        if (!fondRepository.existsById(fond.getIdFond()))
-        {
-            throw new RuntimeException("Fond not found");
-
+    public FondDto updateFond(FondDto fondDto, int id) {
+        Optional<Fond> fondOptional = fondRepository.findById(id);
+        if(!fondOptional.isPresent()){
+            throw  new NotFoundException("not found");
         }
-        fond = fondRepository.save(fond);
-        return fondMapper.toDto(fond);
+        Fond fond = fondOptional.get();
+        fond.setNomCompletFond(fondDto.getNomCompletFond());
+        fond.setMontantMax(fondDto.getMontantMax());
+        fond.setMontantMin(fondDto.getMontantMin());
+
+
+
+
+        return fondMapper.toDto( fondRepository.save(fond));
+
+
+
 
     }
 

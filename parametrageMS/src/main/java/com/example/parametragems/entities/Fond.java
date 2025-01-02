@@ -1,5 +1,6 @@
 package com.example.parametragems.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,8 @@ public class Fond {
     private Date dateDemarrageFond;
     private  Date dateClotureFond;
 
+
+    @JsonIgnore
     @OneToMany (mappedBy = "fond")
     private List<Modalite> modalite;
 }

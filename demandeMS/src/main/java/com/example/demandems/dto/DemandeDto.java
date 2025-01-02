@@ -10,7 +10,11 @@ import lombok.NoArgsConstructor;
 
 public class DemandeDto {
 
+    private String nameDemande;
+
     private int idDemande ;
-    private String  modalite;
-    private String partenaire;
+    private int  idModalite;
+    private int idPartenaire;
+
+
 }

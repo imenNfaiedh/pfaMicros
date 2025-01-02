@@ -1,6 +1,6 @@
 package com.example.parametragems.dto;
 
-import com.example.parametragems.entities.TypeModalite;
+import com.example.parametragems.enumeration.TypeModalite;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +18,7 @@ public class ModaliteDto {
     private Long montantMax;
 
     private TypeModalite typeModalite;
+
+    private  int fondId;
+    private  String nameFond ;
 }

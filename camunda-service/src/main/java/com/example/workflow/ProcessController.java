@@ -20,7 +20,7 @@ public class ProcessController {
         this.processService = processService;
     }
 
-    @GetMapping("/start")
+    @PostMapping("/start")
     public String startProcess(@RequestBody StartProcessRequest  startProcessRequest ) {
         processService.startProcessWithVariables(startProcessRequest);
         return "Process started";
@@ -28,8 +28,8 @@ public class ProcessController {
 
     @GetMapping("/by-task-and-assignee")
     public ResponseEntity<List<TaskDto>> getTasksByTaskDefinitionKeyAndAssignee(
-            @RequestParam String taskDefinitionKey,
-            @RequestParam String assignee) {
+            @RequestParam("taskDefinitionKey") String taskDefinitionKey,
+            @RequestParam("assignee") String assignee) {
         return ResponseEntity.ok( processService.getTasksByTaskDefinitionKeyAndAssignee(taskDefinitionKey , assignee));
     }
 

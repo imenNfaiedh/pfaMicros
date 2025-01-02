@@ -16,12 +16,16 @@ public class Demande {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
 
     private int idDemande ;
-    private String  modalite;
-    private String partenaire;
+    private int  idModalite;
+    private int idPartenaire;
+    private String nameDemande;
 
     @OneToOne
     private Credit credit;
 
     @OneToOne(mappedBy = "demande")
     private Project project;
+
+
+
 }

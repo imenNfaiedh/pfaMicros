@@ -1,3 +1,7 @@
+keycloak-client:
+  server-url: http://localhost:8080
+  realm:  spring-micro-main
+
 eureka:
   client:
     register-with-eureka: true
@@ -5,22 +9,36 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 spring:
-  main:
-    web-application-type: reactive
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+
+
   cloud:
-
-
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+            AllowedHeaders:
+              - Content-Type
       discovery:
         locator:
           enabled: true
       routes: # Ajoute tes routes ici
         - id: demandeMS
-          uri: http://localhost:8090
+          uri: http://localhost:8091
           predicates:
-              - Path=/credits/**
-              - Path=/demandes/**
-              - Path=/projects/**
+              - Path=/credits/** , /demandes/** , /projects/**
+
+
               - Method=GET,POST,PUT,DELETE,OPTIONS
 
         - id: application1
@@ -37,7 +55,12 @@ spring:
           uri: http://localhost:8087
           predicates:
             - Path=/partners/** , /modalite/** , /conventions/** , /fonds/**
+            - Method=GET,POST,PUT,DELETE,OPTIONS
 
+        - id: users-service
+          uri: http://localhost:8090
+          predicates:
+            - Path=/users/**
 
 
 
@@ -52,6 +75,10 @@ spring:
 
 server:
   port: 8085
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 

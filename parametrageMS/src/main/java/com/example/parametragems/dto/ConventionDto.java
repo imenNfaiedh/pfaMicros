@@ -12,4 +12,5 @@ public class ConventionDto {
     private int idConvention;
     private Date dateSignature;
 
+
 }

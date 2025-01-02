@@ -6,11 +6,11 @@ import com.example.parametragems.entities.Modalite;
 import com.example.parametragems.entities.Partenaire;
 import com.example.parametragems.services.IModaliteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/modalite")
 
@@ -20,14 +20,14 @@ public class ModaliteController {
     @Autowired
     private IModaliteService modaliteService;
 
-    @PostMapping("")
-    public ModaliteDto createModalite(@RequestBody Modalite modalite)
-    {
-        return modaliteService.createModalite(modalite);
-    }
+//    @PostMapping("")
+//    public ModaliteDto createModalite(@RequestBody Modalite modalite)
+//    {
+//        return modaliteService.createModalite(modalite);
+//    }
 
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<ModaliteDto>> getAllmodalite()
     {
         return ResponseEntity.ok(modaliteService.getAllModalite());
@@ -40,16 +40,24 @@ public class ModaliteController {
     }
 
     @PutMapping("/{id}")
-    public  ModaliteDto updateModalite(@PathVariable int id, @RequestBody Modalite modalite)
+    public  ModaliteDto updateModalite(@PathVariable int id, @RequestBody ModaliteDto modaliteDto)
     {
-        modalite.setIdModalite(id);
-        return modaliteService.updateModalite(modalite,id);
+        modaliteDto.setIdModalite(id);
+        return modaliteService.updateModalite(modaliteDto,id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteModalite(@PathVariable int id)
     {
         modaliteService.deleteModalite(id);
+    }
+
+
+
+    @PostMapping("")
+    public ResponseEntity<Modalite> saveOrUpdateModalite(@RequestBody ModaliteDto  modaliteDto) {
+        Modalite savedModalite = modaliteService.saveOrUpdateModalite(modaliteDto);
+        return new ResponseEntity<>(savedModalite, HttpStatus.OK);
     }
 
 

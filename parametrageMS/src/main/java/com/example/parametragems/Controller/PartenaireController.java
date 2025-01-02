@@ -17,6 +17,13 @@ public class PartenaireController {
     @Autowired
     private IPartenaireService partenaireService;
 
+//    @GetMapping("/check/{idPartenaire}/{idModalite}")
+//    public ResponseEntity<Boolean> checkConvention(
+//            @PathVariable int idPartenaire, @PathVariable int idModalite) {
+//        boolean exists = partenaireService.checkConvention(idPartenaire, idModalite);
+//        return ResponseEntity.ok(exists);
+//    }
+
 
     @PostMapping()
     public PartenaireDto createPartner(@RequestBody Partenaire partenaire)
@@ -37,10 +44,10 @@ public class PartenaireController {
     }
 
     @PutMapping("/{id}")
-    public  PartenaireDto updatePartner(@PathVariable int id, @RequestBody Partenaire partenaire)
+    public  PartenaireDto updatePartner(@PathVariable int id, @RequestBody PartenaireDto partenaireDto)
     {
-        partenaire.setIdPartenaire(id);
-        return partenaireService.updatePartner(partenaire,id);
+        partenaireDto.setIdPartenaire(id);
+        return partenaireService.updatePartner(partenaireDto,id);
     }
 
     @DeleteMapping("/{id}")

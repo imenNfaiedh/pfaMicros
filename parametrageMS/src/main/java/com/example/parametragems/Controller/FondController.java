@@ -6,11 +6,11 @@ import com.example.parametragems.entities.Fond;
 import com.example.parametragems.entities.Modalite;
 import com.example.parametragems.services.IFondService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/fonds")
 public class FondController {
@@ -21,6 +21,7 @@ public class FondController {
     @PostMapping("")
     public FondDto createFond(@RequestBody Fond fond)
     {
+
         return fondService.createFond(fond);
     }
     @GetMapping("")
@@ -36,10 +37,10 @@ public class FondController {
     }
 
     @PutMapping("/{id}")
-    public  FondDto updateFond(@PathVariable int id, @RequestBody Fond fond)
+    public  FondDto updateFond(@PathVariable int id, @RequestBody FondDto fondDto)
     {
-        fond.setIdFond(id);
-        return fondService.updateFond(fond,id);
+        fondDto.setIdFond(id);
+        return fondService.updateFond(fondDto,id);
     }
 
     @DeleteMapping("/{id}")

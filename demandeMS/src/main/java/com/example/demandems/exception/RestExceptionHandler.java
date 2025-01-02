@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 
-public class PartnerExceptionHandler {
+public class RestExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handlePartnerNotFoundException(NotFoundException e)

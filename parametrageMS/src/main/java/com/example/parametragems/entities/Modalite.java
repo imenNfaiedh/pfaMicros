@@ -1,11 +1,11 @@
 package com.example.parametragems.entities;
 
+import com.example.parametragems.enumeration.TypeModalite;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,7 +27,7 @@ public class Modalite {
     private TypeModalite typeModalite;
 
 
-    @OneToMany(mappedBy = "modalite")
+    @OneToMany(mappedBy = "modalite" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Convention> conventions;
 
     @ManyToOne
